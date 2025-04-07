@@ -7,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrl: './tdf.component.css'
 })
 export class TdfComponent {
+  user = {
+    name: '',
+    email: '',
+    gender: null,
+    age: 18
+   
+  };
 
+  onSubmit() {
+    console.log('User:', this.user);
+  }
 }

@@ -1,36 +1,94 @@
 <h2>Survey Form</h2>
 <form #survey="ngForm">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" ngModel required>
+  <div>
+    <label for="name">Name:</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      [(ngModel)]="user.name"
+      #name="ngModel"
+      required
+      minlength="3"
+    />
+    <div
+      *ngIf="name.touched && name.invalid && name.errors"
+      class="text-danger"
+    >
+      <div *ngIf="name.errors['required']">Name is required.</div>
+      <div *ngIf="name.errors['minlength']">
+        Name must be at least 3 characters long.
+      </div>
     </div>
-    <br>
-    
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" ngModel required>
-    </div>
-    <br>
+    <br />
 
-    <div>
-        <label for="gender">Gender:</label><br>
-        <label for="Male">Male</label>
-        <input type="radio" id="Male" name="gender" value="Male" ngModel>
-        <label for="Female">Female</label>
-        <input type="radio" id="Female" name="gender" value="Female" ngModel>
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      [(ngModel)]="user.email"
+      #email="ngModel"
+      required
+      email
+    />
+    <div
+      class="text-danger"
+      *ngIf="email.touched && email.invalid && email.errors"
+    >
+      <div *ngIf="email.errors['required']">Email is required.</div>
+      <div *ngIf="email.errors['email']">Email is invalid.</div>
     </div>
-    <br>
+    <br />
 
+    <label>Gender:</label><br />
     <div>
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" ngModel required>
+      <input
+        type="radio"
+        id="male"
+        name="gender"
+        value="Male"
+        [(ngModel)]="user.gender"
+        required
+      />
+      <label for="male">Male</label>
     </div>
-    <br>
-
     <div>
-        <button type="submit" class="btn btn-primary">Submit Survey</button>
+      <input
+        type="radio"
+        id="female"
+        name="gender"
+        value="Female"
+        [(ngModel)]="user.gender"
+      />
+      <label for="female">Female</label>
     </div>
-    <br>
+    <div *ngIf="survey.submitted && !user.gender" class="text-danger">
+      Gender is required
+    </div>
 
-    {{ survey.value | json }}
+    <br />
+
+    <label for="age">Age:</label>
+    <input
+      type="number"
+      id="age"
+      name="age"
+      [(ngModel)]="user.age"
+      #age="ngModel"
+      max="120"
+      min="17"
+    />
+    <div *ngIf="age.touched && age.invalid && age.errors" class="text-danger">
+      <div *ngIf="age.errors['min']">Age must be greater than 17.</div>
+      <div *ngIf="age.errors['max']">Age must be less than 120.</div>
+    </div>
+    {{age.errors | json}}
+    <br />
+
+    <button type="submit" class="btn btn-primary">Submit Survey</button>
+  </div>
+  <br />
+
+  {{ survey.value | json }}
 </form>
